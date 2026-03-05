@@ -1,5 +1,9 @@
-import { Plugin } from 'obsidian';
-import { DEFAULT_SETTINGS, RemoveAndDeleteSettings, RemoveAndDeleteSettingTab } from "./settings";
+import { Plugin } from "obsidian";
+import {
+	DEFAULT_SETTINGS,
+	RemoveAndDeleteSettings,
+	RemoveAndDeleteSettingTab,
+} from "./settings";
 import { registerCommands } from "./commands/remove-and-delete";
 
 export default class RemoveAndDeletePlugin extends Plugin {
@@ -14,11 +18,14 @@ export default class RemoveAndDeletePlugin extends Plugin {
 		this.addSettingTab(new RemoveAndDeleteSettingTab(this.app, this));
 	}
 
-	onunload() {
-	}
+	onunload() {}
 
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData() as Partial<RemoveAndDeleteSettings>);
+		this.settings = Object.assign(
+			{},
+			DEFAULT_SETTINGS,
+			(await this.loadData()) as Partial<RemoveAndDeleteSettings>,
+		);
 	}
 
 	async saveSettings() {

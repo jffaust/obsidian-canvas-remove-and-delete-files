@@ -1,9 +1,9 @@
 {
-	"id": "remove-and-delete",
-	"name": "Remove and Delete",
+	"id": "canvas-remove-and-delete-files",
+	"name": "Canvas Remove and Delete Files",
 	"version": "0.1.0",
 	"minAppVersion": "0.15.0",
-	"description": "Remove the selected files/images from a note/canvas AND delete them from the vault.",
+	"description": "Remove the selected files/images from a canvas AND delete them from the vault.",
 	"author": "jffaust",
 	"authorUrl": "https://github.com/jffaust",
 	"fundingUrl": "https://ko-fi.com/jffaust",
