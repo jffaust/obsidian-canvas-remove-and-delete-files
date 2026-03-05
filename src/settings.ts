@@ -1,18 +1,18 @@
 import {App, PluginSettingTab, Setting} from "obsidian";
-import MyPlugin from "./main";
+import RemoveAndDeletePlugin from "./main";
 
-export interface MyPluginSettings {
+export interface RemoveAndDeleteSettings {
 	mySetting: string;
 }
 
-export const DEFAULT_SETTINGS: MyPluginSettings = {
+export const DEFAULT_SETTINGS: RemoveAndDeleteSettings = {
 	mySetting: 'default'
 }
 
-export class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
+export class RemoveAndDeleteSettingTab extends PluginSettingTab {
+	plugin: RemoveAndDeletePlugin;
 
-	constructor(app: App, plugin: MyPlugin) {
+	constructor(app: App, plugin: RemoveAndDeletePlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}

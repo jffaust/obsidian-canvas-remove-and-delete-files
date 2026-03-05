@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
-	"version": "1.0.0",
+	"id": "remove-and-delete",
+	"name": "Remove and Delete",
+	"version": "0.1.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"description": "Remove the selected files/images from a note/canvas AND delete them from the vault.",
+	"author": "jffaust",
+	"authorUrl": "https://github.com/jffaust",
+	"fundingUrl": "https://ko-fi.com/jffaust",
 	"isDesktopOnly": false
 }
