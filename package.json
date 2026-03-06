@@ -1,7 +1,7 @@
 {
-	"name": "remove-and-delete",
-	"version": "0.1.0",
-	"description": "Remove the selected files/images from a note/canvas AND delete them from the vault.",
+	"name": "remove-and-delete-files",
+	"version": "0.1.1",
+	"description": "Remove the selected file(s) from a canvas AND delete them from the vault.",
 	"main": "main.js",
 	"type": "module",
 	"scripts": {
