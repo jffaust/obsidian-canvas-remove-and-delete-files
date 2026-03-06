@@ -1,34 +1,100 @@
-import { Plugin } from "obsidian";
-import {
-	DEFAULT_SETTINGS,
-	RemoveAndDeleteSettings,
-	RemoveAndDeleteSettingTab,
-} from "./settings";
-import { registerCommands } from "./commands/remove-and-delete";
+import { App, Notice, TFile, ItemView, Plugin } from "obsidian";
+import { registerCommands } from "./remove-and-delete";
+
+// Define a minimal interface for the Canvas internal API
+interface CanvasNode {
+	file?: TFile;
+	[key: string]: unknown;
+}
+
+interface Canvas {
+	selection: Set<CanvasNode>;
+	removeNode(node: CanvasNode): void;
+	requestSave(): void;
+	[key: string]: unknown;
+}
+
+interface CanvasView extends ItemView {
+	canvas: Canvas;
+}
 
 export default class RemoveAndDeletePlugin extends Plugin {
-	settings: RemoveAndDeleteSettings;
-
 	async onload() {
-		await this.loadSettings();
+		this.addCommand({
+			id: "invoke",
+			name: "Invoke",
+			checkCallback: (checking: boolean) => {
+				const activeView =
+					plugin.app.workspace.getActiveViewOfType(ItemView);
 
-		registerCommands(this);
+				if (!activeView) return false;
 
-		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new RemoveAndDeleteSettingTab(this.app, this));
+				const isCanvas = activeView.getViewType() === "canvas";
+
+				if (isCanvas) {
+					if (!checking) {
+						// eslint-disable-next-line @typescript-eslint/no-floating-promises
+						removeAndDeleteFromCanvas(
+							this.app,
+							activeView as unknown as CanvasView,
+						);
+					}
+					return true;
+				}
+				return false;
+			},
+		});
 	}
 
 	onunload() {}
+}
 
-	async loadSettings() {
-		this.settings = Object.assign(
-			{},
-			DEFAULT_SETTINGS,
-			(await this.loadData()) as Partial<RemoveAndDeleteSettings>,
-		);
+async function removeAndDeleteFromCanvas(app: App, canvasView: CanvasView) {
+	const canvas = canvasView.canvas;
+
+	if (!canvas) {
+		new Notice("Canvas not found.");
+		return;
 	}
 
-	async saveSettings() {
-		await this.saveData(this.settings);
+	const selection = canvas.selection;
+	if (!selection || selection.size === 0) {
+		new Notice("No items selected in the canvas.");
+		return;
+	}
+
+	let deletedCount = 0;
+	const nodesToRemove: { node: CanvasNode; file: TFile }[] = [];
+
+	for (const node of selection) {
+		if (node.file && node.file instanceof TFile) {
+			nodesToRemove.push({ node, file: node.file });
+		}
+	}
+
+	if (nodesToRemove.length === 0) {
+		new Notice("No valid files found in the selection.");
+		return;
+	}
+
+	for (const { node, file } of nodesToRemove) {
+		try {
+			if (typeof canvas.removeNode === "function") {
+				canvas.removeNode(node);
+			}
+
+			await app.fileManager.trashFile(file);
+			deletedCount++;
+		} catch (error) {
+			console.error("Error removing/deleting file:", error);
+			new Notice(`Failed to delete ${file.path}`);
+		}
+	}
+
+	if (deletedCount > 0) {
+		if (typeof canvas.requestSave === "function") {
+			canvas.requestSave();
+		}
+		new Notice(`Removed and deleted ${deletedCount} file(s).`);
 	}
 }

@@ -11,6 +11,7 @@ export default defineConfig([
 			"esbuild.config.mjs",
 			"version-bump.mjs",
 			"node_modules/**",
+			"temp-repos/**",
 		],
 	},
 	...obsidianmd.configs.recommended,
