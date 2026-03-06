@@ -1,5 +1,4 @@
 import { App, Notice, TFile, ItemView, Plugin } from "obsidian";
-import { registerCommands } from "./remove-and-delete";
 
 // Define a minimal interface for the Canvas internal API
 interface CanvasNode {
@@ -25,7 +24,7 @@ export default class RemoveAndDeletePlugin extends Plugin {
 			name: "Invoke",
 			checkCallback: (checking: boolean) => {
 				const activeView =
-					plugin.app.workspace.getActiveViewOfType(ItemView);
+					this.app.workspace.getActiveViewOfType(ItemView);
 
 				if (!activeView) return false;
 
