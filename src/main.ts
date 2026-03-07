@@ -18,7 +18,7 @@ interface CanvasView extends ItemView {
 }
 
 export default class RemoveAndDeletePlugin extends Plugin {
-	async onload() {
+	onload() {
 		this.addCommand({
 			id: "invoke",
 			name: "Invoke",
@@ -32,10 +32,12 @@ export default class RemoveAndDeletePlugin extends Plugin {
 
 				if (isCanvas) {
 					if (!checking) {
-						// eslint-disable-next-line @typescript-eslint/no-floating-promises
 						removeAndDeleteFromCanvas(
 							this.app,
 							activeView as unknown as CanvasView,
+						).then(
+							() => {},
+							() => {},
 						);
 					}
 					return true;
@@ -94,6 +96,6 @@ async function removeAndDeleteFromCanvas(app: App, canvasView: CanvasView) {
 		if (typeof canvas.requestSave === "function") {
 			canvas.requestSave();
 		}
-		new Notice(`Removed and deleted ${deletedCount} file(s).`);
+		new Notice(`Deleted ${deletedCount} file(s).`);
 	}
 }
