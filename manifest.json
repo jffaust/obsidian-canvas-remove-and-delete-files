@@ -1,7 +1,7 @@
 {
 	"id": "canvas-remove-and-delete-files",
 	"name": "Canvas Remove and Delete Files",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"minAppVersion": "0.15.0",
 	"description": "Remove the selected file(s) from a canvas AND delete them from the vault.",
 	"author": "jffaust",
